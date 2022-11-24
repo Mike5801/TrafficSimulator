@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 809206772372159007}
   - component: {fileID: 809206773526970875}
   - component: {fileID: 809206773526970822}
+  - component: {fileID: -6261611942898571837}
   m_Layer: 0
   m_Name: RedCar
   m_TagString: Untagged
@@ -121,6 +122,19 @@ MeshCollider:
   m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: 4300000, guid: d857dc8da4a0e2b4088a55b525d92cc8, type: 3}
+--- !u!114 &-6261611942898571837
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 809206772374182021}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e989d99bafea40c42874ceaf59efbfdb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  speed: 60
 --- !u!1 &809206772374218343
 GameObject:
   m_ObjectHideFlags: 0

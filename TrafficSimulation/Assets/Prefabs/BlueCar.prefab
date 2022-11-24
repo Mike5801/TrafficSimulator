@@ -211,6 +211,7 @@ GameObject:
   - component: {fileID: 8239324246104722981}
   - component: {fileID: 8239324244969436609}
   - component: {fileID: 8239324244969436668}
+  - component: {fileID: 4727878947653136832}
   m_Layer: 0
   m_Name: BlueCar
   m_TagString: Untagged
@@ -319,6 +320,19 @@ MeshCollider:
   m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: 4300000, guid: d857dc8da4a0e2b4088a55b525d92cc8, type: 3}
+--- !u!114 &4727878947653136832
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8239324246106762431}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e989d99bafea40c42874ceaf59efbfdb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  speed: 60
 --- !u!1 &8239324246106903181
 GameObject:
   m_ObjectHideFlags: 0
