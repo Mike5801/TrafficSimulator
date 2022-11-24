@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class MoveForward : MonoBehaviour
 {
+    public int speed = 10;
     // Start is called before the first frame update
     void Start()
     {
@@ -13,6 +14,29 @@ public class MoveForward : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        Move();
     }
+
+    void Move(){
+        transform.Translate(Vector3.right * speed * Time.deltaTime);
+    }
+
+//     public void OnEnable()
+// {
+//     TimeManager.OnMinuteChanged += TimeCheck;
+// }
+
+// public void OnDisable()
+// {
+//     TimeManager.OnMinuteChanged -= TimeCheck;
+// }
+
+// private void TimeCheck()
+// {
+//     if(TimeManager.Hour == 10 && TimeManager.Minute == 30)
+//     {
+//         StartCoroutine();
+//     }
+    
+// }
 }
