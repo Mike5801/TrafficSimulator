@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 170076734}
-  m_IndirectSpecularColor: {r: 0.5056088, g: 0.44147092, b: 0.45263198, a: 1}
+  m_IndirectSpecularColor: {r: 0.5056084, g: 0.44147027, b: 0.452631, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -17195,6 +17195,50 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 8783306491909106419, guid: f02116c209ecd9e488fc4d2cd8996133, type: 3}
   m_PrefabInstance: {fileID: 699499406}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &700207483
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 700207484}
+  - component: {fileID: 700207485}
+  m_Layer: 0
+  m_Name: Web-Client System
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &700207484
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 700207483}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 762771959}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &700207485
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 700207483}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3217fc282cadfec40b72a519392e1459, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &702076955
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -18652,6 +18696,7 @@ Transform:
   m_Children:
   - {fileID: 1291634598}
   - {fileID: 835989250}
+  - {fileID: 700207484}
   m_Father: {fileID: 0}
   m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -46672,6 +46717,10 @@ MonoBehaviour:
   rightCar: {fileID: 8239324246106762431, guid: 5699a7192c17f5943bb7a208ec0be84c, type: 3}
   leftCar: {fileID: 3953279587462249779, guid: a81d55acf20e1f04ab0423dbd7707670, type: 3}
   CenterCar: {fileID: 809206772374182021, guid: a74a491cf5a7ff84489aaad3c1dd077a, type: 3}
+  BrokenCar: {fileID: 1029103540595759154, guid: 4c956b82828d44d4ea1b86c2aff7a826, type: 3}
+  counter: 0
+  StartPos: -95
+  EndPos: 2085
 --- !u!1 &1962309036
 GameObject:
   m_ObjectHideFlags: 0
