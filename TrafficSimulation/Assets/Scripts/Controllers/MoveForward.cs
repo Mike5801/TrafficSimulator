@@ -6,6 +6,7 @@ public class MoveForward : MonoBehaviour
 {
     public int speed = 10;
     public int ID = 0;
+    public Vector3 limitPosition = new Vector3(0, 0, 1000);
     // Start is called before the first frame update
     void Start()
     {
@@ -15,7 +16,12 @@ public class MoveForward : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Move();
+        
+        if (transform.position.z >= limitPosition.z) {
+            Destroy(gameObject);
+        } else {
+            Move();
+        }
     }
 
     void Move(){

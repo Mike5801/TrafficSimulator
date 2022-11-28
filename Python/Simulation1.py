@@ -169,10 +169,10 @@ class RoadModel(Model):
                 self.schedule.remove(content)
         
         
-        if self.count_steps == 150:
+        if self.count_steps == 10:
             accidented_car = CarAgent(self.id_counter, self, True, 0)
             x = 1
-            y = self.grid.height - 1
+            y = self.grid.height - 2
             self.grid.place_agent(accidented_car,(x, y))
             self.schedule.add(accidented_car)
             self.id_counter += 1
