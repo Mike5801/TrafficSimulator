@@ -8,6 +8,8 @@ public class CarSpawner : MonoBehaviour
     public GameObject leftCar;
     public GameObject CenterCar;
     public int counter = 10;
+    public int StartPos = -95;
+    public int EndPos = 2085;
     // Start is called before the first frame update
     public void OnEnable(){
         TimeManager.OnMinuteChanged += TimeCheck;
@@ -32,7 +34,7 @@ public class CarSpawner : MonoBehaviour
     {
         int random = Random.Range(0, 3);
         if (random == 0) {
-            GameObject Car = Instantiate(rightCar, new Vector3(25, 1.5f, 100), Quaternion.Euler(0, 270, 0)) as GameObject;
+            GameObject Car = Instantiate(rightCar, new Vector3(25, 1.5f, StartPos), Quaternion.Euler(0, 270, 0)) as GameObject;
             // Assign counter as ID in MoveForward
             Car.GetComponent<MoveForward>().ID = counter;
             Debug.Log(Car.GetComponent<MoveForward>().ID);
