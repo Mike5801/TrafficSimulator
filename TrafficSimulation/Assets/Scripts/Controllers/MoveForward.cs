@@ -32,11 +32,25 @@ public class MoveForward : MonoBehaviour
     void Move(){
         if (previousPosx != posx) {
             if (posx == 0) {
-                transform.Translate(Vector3.forward * horizontalSpeed * Time.deltaTime * 1);
+                float time = 1f;
+                while (time > 0) {
+                    transform.Translate(Vector3.forward * horizontalSpeed * Time.deltaTime * 1);
+                    time -= Time.deltaTime;
+                }
+                previousPosx = posx;
+                previousPosy += 3; 
             } else if (posx == 2) {
-                transform.Translate(Vector3.back * horizontalSpeed * Time.deltaTime * 1);
+                float time = 1f;
+                while (time > 0) {
+                    transform.Translate(Vector3.back * horizontalSpeed * Time.deltaTime * 1);
+                    time -= Time.deltaTime;
+                }
+                previousPosx = posx;
+                previousPosy += 3; 
             }
-        } else if (previousPosy - posy == 1) {
+        } 
+        
+        if (previousPosy - posy >= 1) {
             transform.Translate(Vector3.right * speed * Time.deltaTime * 1);
         } else if (previousPosy - posy == 0) {
             transform.Translate(Vector3.right * speed * Time.deltaTime * 0);

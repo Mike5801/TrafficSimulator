@@ -85,6 +85,9 @@ public class CarSpawner : MonoBehaviour
                         foreach (GameObject carCenter in carsCenter) {
                             if (carCenter.GetComponent<MoveForward>().ID == id) {
                                 carCenter.GetComponent<MoveForward>().posx = posx;
+
+                                carCenter.GetComponent<MoveForward>().previousPosy = carCenter.GetComponent<MoveForward>().posy;
+                                carCenter.GetComponent<MoveForward>().posy = posy;
                             }
                         }
                     }
@@ -135,6 +138,9 @@ public class CarSpawner : MonoBehaviour
                         foreach (GameObject carCenter in carsCenter) {
                             if (carCenter.GetComponent<MoveForward>().ID == id) {
                                 carCenter.GetComponent<MoveForward>().posx = posx;
+
+                                carCenter.GetComponent<MoveForward>().previousPosy = carCenter.GetComponent<MoveForward>().posy;
+                                carCenter.GetComponent<MoveForward>().posy = posy;
                             }
                         }
                     }
