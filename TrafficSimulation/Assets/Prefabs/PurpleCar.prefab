@@ -115,7 +115,7 @@ GameObject:
   - component: {fileID: 3270586584818782876}
   m_Layer: 0
   m_Name: PurpleCar
-  m_TagString: Untagged
+  m_TagString: MalFunction
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -233,9 +233,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e989d99bafea40c42874ceaf59efbfdb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 10
+  speed: 15
   ID: 0
-  limitPosition: {x: 0, y: 0, z: 1000}
+  limitPosition: {x: 0, y: 0, z: 2085}
+  posy: 0
+  previousPosy: 0
+  posx: 0
+  previousPosx: 0
 --- !u!1 &3554875320302790214
 GameObject:
   m_ObjectHideFlags: 0

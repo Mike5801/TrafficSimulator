@@ -34,23 +34,92 @@ public class CarSpawner : MonoBehaviour
     // Update is called once per frame
     private IEnumerator SpawnCarRandom()
     {
-        for (int i = 0; i < WebClient.res.data.Length; i++) {
-            if (WebClient.res.data[i].car_malfunction == true && !visitedIDs.Contains(WebClient.res.data[i].id)) {
-                GameObject car = Instantiate(BrokenCar, new Vector3(15, 1.5f, StartPos), Quaternion.Euler(0, 270, 0));
-                car.GetComponent<MoveForward>().ID = WebClient.res.data[i].id;
-                visitedIDs.Add(WebClient.res.data[i].id);
-            } else if (WebClient.res.data[i].posx == 0 && !visitedIDs.Contains(WebClient.res.data[i].id)) {
-                GameObject car = Instantiate(rightCar, new Vector3(25, 1.5f, StartPos), Quaternion.Euler(0, 270, 0));
-                car.GetComponent<MoveForward>().ID = WebClient.res.data[i].id;
-                visitedIDs.Add(WebClient.res.data[i].id);
-            } else if (WebClient.res.data[i].posx == 1 && !visitedIDs.Contains(WebClient.res.data[i].id)) {
-                GameObject car = Instantiate(CenterCar, new Vector3(15, 1.5f, StartPos), Quaternion.Euler(0, 270, 0));
-                car.GetComponent<MoveForward>().ID = WebClient.res.data[i].id;
-                visitedIDs.Add(WebClient.res.data[i].id);
-            } else if (WebClient.res.data[i].posx == 2 && !visitedIDs.Contains(WebClient.res.data[i].id)) {
-                GameObject car = Instantiate(leftCar, new Vector3(5, 1.5f, StartPos), Quaternion.Euler(0, 270, 0));
-                car.GetComponent<MoveForward>().ID = WebClient.res.data[i].id;
-                visitedIDs.Add(WebClient.res.data[i].id);
+        Car[] carsData = WebClient.res.data;
+
+        for (int i = 0; i < carsData.Length; i++) {
+            int id = carsData[i].id;
+            int posx = carsData[i].posx;
+            int posy = carsData[i].posy;
+            bool car_malfunction = carsData[i].car_malfunction;
+            if (car_malfunction == true) {
+                if (!visitedIDs.Contains(id)) {
+                    GameObject car = Instantiate(BrokenCar, new Vector3(15, 1.5f, StartPos), Quaternion.Euler(0, 270, 0));
+                    car.GetComponent<MoveForward>().ID = id;
+                    car.GetComponent<MoveForward>().previousPosy = posy + 1;
+                    car.GetComponent<MoveForward>().posy = posy;
+                    visitedIDs.Add(id);
+                } else if (visitedIDs.Contains(id)) {
+                    GameObject[] cars;
+                    cars = GameObject.FindGameObjectsWithTag("MalFunction");
+                    foreach (GameObject car in cars) {
+                        if (car.GetComponent<MoveForward>().ID == id) {
+                            car.GetComponent<MoveForward>().previousPosy = car.GetComponent<MoveForward>().posy;
+                            car.GetComponent<MoveForward>().posy = posy;
+                        }
+                    }
+                }
+            } else if (posx == 0) {
+                if (!visitedIDs.Contains(id)) {
+                    GameObject car = Instantiate(rightCar, new Vector3(25, 1.5f, StartPos), Quaternion.Euler(0, 270, 0));
+                    car.GetComponent<MoveForward>().ID = id;
+                    car.GetComponent<MoveForward>().previousPosy = posy + 1;
+                    car.GetComponent<MoveForward>().posy = posy;
+                    visitedIDs.Add(id);
+                } else if (visitedIDs.Contains(id)) {
+                    GameObject[] cars;
+                    cars = GameObject.FindGameObjectsWithTag("Right");
+                    foreach (GameObject car in cars) {
+                        if (car.GetComponent<MoveForward>().ID == id) {
+                            car.GetComponent<MoveForward>().previousPosy = car.GetComponent<MoveForward>().posy;
+                            car.GetComponent<MoveForward>().posy = posy;
+                        }
+                    }
+                }
+            } else if (posx == 1) {
+                if (!visitedIDs.Contains(id)) {
+                    GameObject car = Instantiate(CenterCar, new Vector3(15, 1.5f, StartPos), Quaternion.Euler(0, 270, 0));
+                    car.GetComponent<MoveForward>().ID = id;
+                    car.GetComponent<MoveForward>().previousPosy = posy + 1;
+                    car.GetComponent<MoveForward>().posy = posy;
+                    car.GetComponent<MoveForward>().previousPosx = posx;
+                    car.GetComponent<MoveForward>().posx = posx;
+
+                    Debug.Log(car.GetComponent<MoveForward>().previousPosx);
+                    Debug.Log(car.GetComponent<MoveForward>().posx);
+                    visitedIDs.Add(id);
+                } else if (visitedIDs.Contains(id)) {
+                    GameObject[] cars;
+                    cars = GameObject.FindGameObjectsWithTag("Center");
+                    foreach (GameObject car in cars) {
+                        if (car.GetComponent<MoveForward>().ID == id) {
+                            car.GetComponent<MoveForward>().previousPosy = car.GetComponent<MoveForward>().posy;
+                            car.GetComponent<MoveForward>().posy = posy;
+
+                            car.GetComponent<MoveForward>().previousPosx = car.GetComponent<MoveForward>().posx;
+                            car.GetComponent<MoveForward>().posx = posx;
+
+                            Debug.Log(car.GetComponent<MoveForward>().previousPosx);
+                            Debug.Log(car.GetComponent<MoveForward>().posx);
+                        }
+                    }
+                }
+            } else if (posx == 2) {
+                if (!visitedIDs.Contains(id)) {
+                    GameObject car = Instantiate(leftCar, new Vector3(5, 1.5f, StartPos), Quaternion.Euler(0, 270, 0));
+                    car.GetComponent<MoveForward>().previousPosy = posy + 1;
+                    car.GetComponent<MoveForward>().posy = posy;
+                    car.GetComponent<MoveForward>().ID = id;
+                    visitedIDs.Add(id);
+                } else if (visitedIDs.Contains(id)) {
+                    GameObject[] cars;
+                    cars = GameObject.FindGameObjectsWithTag("Left");
+                    foreach (GameObject car in cars) {
+                        if (car.GetComponent<MoveForward>().ID == id) {
+                            car.GetComponent<MoveForward>().previousPosy = car.GetComponent<MoveForward>().posy;
+                            car.GetComponent<MoveForward>().posy = posy;
+                        }
+                    }
+                }
             }
         }
         // int random = Random.Range(0, 3);

@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: -6261611942898571837}
   m_Layer: 0
   m_Name: RedCar
-  m_TagString: Untagged
+  m_TagString: Center
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -134,7 +134,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e989d99bafea40c42874ceaf59efbfdb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 60
+  speed: 15
+  ID: 0
+  limitPosition: {x: 0, y: 0, z: 2085}
+  posy: 0
+  previousPosy: 0
+  posx: 0
+  previousPosx: 0
 --- !u!1 &809206772374218343
 GameObject:
   m_ObjectHideFlags: 0

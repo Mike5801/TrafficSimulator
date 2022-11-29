@@ -117,9 +117,10 @@ class CarAgent(Agent):
         for neighbor in neighbors:
             if self.pos[0] == 1:
                 if neighbor.car_malfunction == True:
-                    self.front_malfunction = True
-                    self.show_intention = True
-                    self.velocity = 0
+                    if neighbor.pos[1] == self.pos[1] - 1:
+                        self.front_malfunction = True
+                        self.show_intention = True
+                        self.velocity = 0
          
         if self.model.accident_occured == True:
             if self.pos[0] == 1 and self.front_malfunction == True:    
@@ -172,7 +173,7 @@ class RoadModel(Model):
         if self.count_steps == 10:
             accidented_car = CarAgent(self.id_counter, self, True, 0)
             x = 1
-            y = self.grid.height - 2
+            y = self.grid.height - 1
             self.grid.place_agent(accidented_car,(x, y))
             self.schedule.add(accidented_car)
             self.id_counter += 1

@@ -7,6 +7,10 @@ public class MoveForward : MonoBehaviour
     public int speed = 10;
     public int ID = 0;
     public Vector3 limitPosition = new Vector3(0, 0, 1000);
+    public int posy;
+    public int previousPosy;
+    public int posx = -1;
+    public int previousPosx = -1;
     // Start is called before the first frame update
     void Start()
     {
@@ -25,25 +29,16 @@ public class MoveForward : MonoBehaviour
     }
 
     void Move(){
-        transform.Translate(Vector3.right * speed * Time.deltaTime);
+        if (previousPosx != posx) {
+            if (posx == 0) {
+                transform.Translate(Vector3.left * 60 * Time.deltaTime * 1);
+            } else if (posx == 2) {
+                transform.Translate(Vector3.left * 60 * Time.deltaTime * 1);
+            }
+        } else if (previousPosy - posy == 1) {
+            transform.Translate(Vector3.right * speed * Time.deltaTime * 1);
+        } else if (previousPosy - posy == 0) {
+            transform.Translate(Vector3.right * speed * Time.deltaTime * 0);
+        }
     }
-
-//     public void OnEnable()
-// {
-//     TimeManager.OnMinuteChanged += TimeCheck;
-// }
-
-// public void OnDisable()
-// {
-//     TimeManager.OnMinuteChanged -= TimeCheck;
-// }
-
-// private void TimeCheck()
-// {
-//     if(TimeManager.Hour == 10 && TimeManager.Minute == 30)
-//     {
-//         StartCoroutine();
-//     }
-    
-// }
 }
