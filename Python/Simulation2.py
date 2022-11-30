@@ -158,7 +158,7 @@ class RoadModel(Model):
                 self.grid.remove_agent(content)
                 self.schedule.remove(content)
         
-        if self.count_steps == 150:
+        if self.count_steps == 10:
             accidented_car = CarAgent(self.id_counter, self, True, 0)
             x = 1
             y = self.grid.height - 1

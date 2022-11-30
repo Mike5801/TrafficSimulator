@@ -180,7 +180,7 @@ class RoadModel(Model):
             self.schedule.add(accidented_car)
             self.id_counter += 1
         else:
-            car_spawn = CarAgent(self.id_counter, self, False, 0) #self.random.randint(0, 2)
+            car_spawn = CarAgent(self.id_counter, self, False, self.random.randint(0, 2)) 
             x = self.random.randint(0, 2)
             y = self.grid.height - 1
             if self.grid[x][y] == None:

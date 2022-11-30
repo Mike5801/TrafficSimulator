@@ -8,6 +8,8 @@ public class MoveForward : MonoBehaviour
     public int horizontalSpeed = 10;
     public int ID = 0;
     public Vector3 limitPosition = new Vector3(0, 0, 1000);
+    public Vector3 limitPositionRight = new Vector3(25, 0, 0);
+    public Vector3 limitPositionLeft = new Vector3(5, 0, 0);
     public int posy;
     public int previousPosy;
     public int posx = -1;
@@ -26,30 +28,28 @@ public class MoveForward : MonoBehaviour
             Destroy(gameObject);
         } else {
             Move();
+
         }
     }
 
     void Move(){
         if (previousPosx != posx) {
             if (posx == 0) {
-                float time = 1f;
-                while (time > 0) {
+                if (transform.position.x > limitPositionLeft.x) {
                     transform.Translate(Vector3.forward * horizontalSpeed * Time.deltaTime * 1);
-                    time -= Time.deltaTime;
+                } else {
+                    previousPosx = posx;
+                    previousPosy += 3; 
                 }
-                previousPosx = posx;
-                previousPosy += 3; 
             } else if (posx == 2) {
-                float time = 1f;
-                while (time > 0) {
+                if (transform.position.x < limitPositionRight.x) {
                     transform.Translate(Vector3.back * horizontalSpeed * Time.deltaTime * 1);
-                    time -= Time.deltaTime;
+                } else {
+                    previousPosx = posx;
+                    previousPosy += 3; 
                 }
-                previousPosx = posx;
-                previousPosy += 3; 
             }
         } 
-        
         if (previousPosy - posy >= 1) {
             transform.Translate(Vector3.right * speed * Time.deltaTime * 1);
         } else if (previousPosy - posy == 0) {

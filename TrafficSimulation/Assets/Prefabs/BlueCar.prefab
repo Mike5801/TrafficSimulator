@@ -333,8 +333,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 15
+  horizontalSpeed: 10
   ID: 0
   limitPosition: {x: 0, y: 0, z: 2085}
+  limitPositionRight: {x: 25, y: 0, z: 0}
+  limitPositionLeft: {x: 5, y: 0, z: 0}
   posy: 0
   previousPosy: 0
   posx: 0
