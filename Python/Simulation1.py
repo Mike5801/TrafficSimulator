@@ -62,8 +62,9 @@ class CarAgent(Agent):
         self.front_malfunction = False
                    
     def changeLane(self, neighbor):
-        neighbor.counter += 1
-        neighbor.velocity = 0
+        if neighbor != None:
+            neighbor.counter += 1
+            neighbor.velocity = 0
         self.show_intention = False
         x, y = self.pos
         self.velocity = 60
@@ -94,7 +95,7 @@ class CarAgent(Agent):
             intention = neighbor.intention
             carLane = self.pos[0]
             if (intention == 0 and carLane == 0) or (intention == 1 and carLane == 2):
-                if self.counter > self.num_cars_allowed:
+                if self.counter >= self.num_cars_allowed:
                     self.velocity = 60
             elif (intention == 0 and carLane == 2) or (intention == 1 and carLane == 0):
                 self.velocity = 60
@@ -117,17 +118,20 @@ class CarAgent(Agent):
         for neighbor in neighbors:
             if self.pos[0] == 1:
                 if neighbor.car_malfunction == True:
-                    self.front_malfunction = True
-                    self.show_intention = True
-                    self.velocity = 0
+                    if neighbor.pos[1] == self.pos[1] - 1:
+                        self.front_malfunction = True
+                        self.show_intention = True
+                        self.velocity = 0
          
         if self.model.accident_occured == True:
             if self.pos[0] == 1 and self.front_malfunction == True:    
                 waiting_car_pos = self.getWaitingCar()
                 diagonal_car = self.model.grid[waiting_car_pos[0]][waiting_car_pos[1]]
                 if diagonal_car != None:
-                    if diagonal_car.counter <= diagonal_car.num_cars_allowed:
+                    if diagonal_car.counter < diagonal_car.num_cars_allowed:
                         self.changeLane(diagonal_car)
+                elif diagonal_car == None:
+                    self.changeLane(diagonal_car)
             elif self.pos[0] == 0 or self.pos[0] == 2 :
                 passing_car = self.getPassingCar()
                 front_passing_car = self.model.grid[passing_car[0]][passing_car[1]]
@@ -135,8 +139,7 @@ class CarAgent(Agent):
                     self.canPass(front_passing_car)
                 elif front_passing_car == None and (self.pos[0] == 0 or self.pos[0] == 2):
                     self.velocity = 60
-
-                    
+          
         if self.velocity == 60 and self.model.grid[self.pos[0]][self.pos[1] - 1] == None:
             self.model.grid.move_agent(self, (self.pos[0], self.pos[1] - 1))
 
@@ -169,7 +172,7 @@ class RoadModel(Model):
                 self.schedule.remove(content)
         
         
-        if self.count_steps == 150:
+        if self.count_steps == 10:
             accidented_car = CarAgent(self.id_counter, self, True, 0)
             x = 1
             y = self.grid.height - 1
@@ -177,7 +180,7 @@ class RoadModel(Model):
             self.schedule.add(accidented_car)
             self.id_counter += 1
         else:
-            car_spawn = CarAgent(self.id_counter, self, False, self.random.randint(0, 2))
+            car_spawn = CarAgent(self.id_counter, self, False, self.random.randint(0, 2)) 
             x = self.random.randint(0, 2)
             y = self.grid.height - 1
             if self.grid[x][y] == None:

@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 7417397303571999067}
   m_Layer: 0
   m_Name: GreenCar
-  m_TagString: Untagged
+  m_TagString: Left
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -134,7 +134,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e989d99bafea40c42874ceaf59efbfdb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 60
+  speed: 15
+  horizontalSpeed: 10
+  ID: 0
+  limitPosition: {x: 0, y: 0, z: 2085}
+  limitPositionRight: {x: 25, y: 0, z: 0}
+  limitPositionLeft: {x: 5, y: 0, z: 0}
+  posy: 0
+  previousPosy: 0
+  posx: 0
+  previousPosx: 0
 --- !u!1 &3953279587462267857
 GameObject:
   m_ObjectHideFlags: 0

@@ -112,9 +112,10 @@ GameObject:
   - component: {fileID: 3243564433064099304}
   - component: {fileID: 6583503117237082339}
   - component: {fileID: 9081318982092680810}
+  - component: {fileID: 3270586584818782876}
   m_Layer: 0
   m_Name: PurpleCar
-  m_TagString: Untagged
+  m_TagString: MalFunction
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -128,8 +129,8 @@ Transform:
   m_GameObject: {fileID: 1029103540595759154}
   m_LocalRotation: {x: -0.000000026692542, y: -0.7071068, z: 0.000000026692542, w: 0.7071068}
   m_LocalPosition: {x: 14.8, y: 0.5, z: -89.11974}
-  m_LocalScale: {x: 400.0001, y: 400, z: 400.0001}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 200, y: 200, z: 200}
+  m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 5791089141008623291}
   - {fileID: 5739614257228862347}
@@ -220,6 +221,28 @@ MeshCollider:
   m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: 4300000, guid: d857dc8da4a0e2b4088a55b525d92cc8, type: 3}
+--- !u!114 &3270586584818782876
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1029103540595759154}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e989d99bafea40c42874ceaf59efbfdb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  speed: 15
+  horizontalSpeed: 10
+  ID: 0
+  limitPosition: {x: 0, y: 0, z: 2085}
+  limitPositionRight: {x: 25, y: 0, z: 0}
+  limitPositionLeft: {x: 5, y: 0, z: 0}
+  posy: 0
+  previousPosy: 0
+  posx: 0
+  previousPosx: 0
 --- !u!1 &3554875320302790214
 GameObject:
   m_ObjectHideFlags: 0
