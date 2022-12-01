@@ -1,40 +1,36 @@
-# Importamos las clases que se requieren para manejar los agentes (Agent) y su entorno (Model).
-# Cada modelo puede contener múltiples agentes.
 from mesa import Agent, Model 
 
-# Debido a que necesitamos que existe un solo agente por celda, elegimos ''SingleGrid''.
 from mesa.space import SingleGrid
 
-# Con ''RandomActivation'', hacemos que todos los agentes se activen ''al mismo tiempo''.
 from mesa.time import SimultaneousActivation
 
-# Haremos uso de ''DataCollector'' para obtener información de cada paso de la simulación.
 from mesa.datacollection import DataCollector
 
-# matplotlib lo usaremos crear una animación de cada uno de los pasos del modelo.
-# matplotlib inline
 import matplotlib
 import matplotlib.pyplot as plt
 import matplotlib.animation as animation
 plt.rcParams["animation.html"] = "jshtml"
 matplotlib.rcParams['animation.embed_limit'] = 2**128
 
-# Importamos los siguientes paquetes para el mejor manejo de valores numéricos.
 import numpy as np
 import pandas as pd
 
-# Definimos otros paquetes que vamos a usar para medir el tiempo de ejecución de nuestro algoritmo.
 import time
 import datetime
 
 import sys
 
-# Servidor Python
 from http.server import BaseHTTPRequestHandler, HTTPServer
 import logging
 import json
 
 def get_grid(model):
+    """
+    Defines information collected by agents in the grid
+    parameters: Model
+    return: np.array
+    """
+
     grid = np.zeros( (model.grid.width, model.grid.height) )
     for (content, x, y) in model.grid.coord_iter():
         if content == None:
@@ -47,7 +43,17 @@ def get_grid(model):
     return grid
 
 class CarAgent(Agent):
+    """
+    Class car of type Agent
+    parameters: Agent
+    """
+
     def __init__(self, unique_id, model, car_malfunction, num_cars_allowed):
+        """
+        Initializes the class 
+        parameters: CarAgent, int, Model, bool, int
+        """
+
         super().__init__(unique_id, model)
         self.velocity = 60
         self.acceleration = 0
@@ -62,6 +68,11 @@ class CarAgent(Agent):
         self.front_malfunction = False
                    
     def changeLane(self, neighbor):
+        """
+        Change the lane of center cars
+        parameters: CarAgent, CarAgent
+        """
+
         if neighbor != None:
             neighbor.velocity = 0
         self.show_intention = False
@@ -79,6 +90,12 @@ class CarAgent(Agent):
                     neighbor.counter += 1
             
     def getWaitingCar(self):
+        """
+        Gets the car on the back diagonal of the center depending on the car's intention
+        parameters: CarAgent
+        return: tuple
+        """
+
         if self.intention == 0 and self.pos[1]:
             waiting_car_pos = (self.pos[0] - 1, self.pos[1] + 1)
         elif self.intention == 1 and self.pos[1]:
@@ -86,6 +103,12 @@ class CarAgent(Agent):
         return waiting_car_pos
     
     def getPassingCar(self):
+        """
+        Gets the car whose front car is the malfunction one
+        parameters: CarAgent
+        return: tuple
+        """
+
         if self.pos[0] == 0:
             passing_car = (self.pos[0] + 1, self.pos[1] - 1)
         elif self.pos[0] == 2:
@@ -94,6 +117,11 @@ class CarAgent(Agent):
         return passing_car
     
     def canPass(self, neighbor):
+        """
+        Moves the right or left lane cars
+        parameters: CarAgent, CarAgent
+        """
+
         if neighbor.show_intention == True:
             intention = neighbor.intention
             carLane = self.pos[0]
@@ -104,6 +132,11 @@ class CarAgent(Agent):
                 self.velocity = 60
                 
     def step(self):
+        """
+        Defines the actions of the CarAgent
+        parameters: CarAgent
+        """
+
         neighbors = self.model.grid.get_neighbors(self.pos, moore=True, include_center=False)
                 
         if self.car_malfunction == True and self.pos[1] == (self.model.grid.height / 2):
@@ -133,6 +166,13 @@ class CarAgent(Agent):
             self.model.grid.move_agent(self, (self.pos[0], self.pos[1] - 1))
 
 def get_positions(model):
+    """
+    Gets the position and id of every CarAgent and creates
+    an array of objects
+    parameters: Model
+    return: Json
+    """
+
     positions = []
     for (content, x, y) in model.grid.coord_iter():
         if content != None:
@@ -141,10 +181,17 @@ def get_positions(model):
     return json.dumps(positions)
 
 class RoadModel(Model):
+    """
+    Class RoadModel of type Model
+    parameters: Model
+    """
+
     def __init__(self, width, height):
-        self.max_velocity = 60
-        self.start_time = time.time()
-        self.accident_time = datetime.timedelta(seconds=2*60)
+        """
+        Initializes the class
+        parameters: Model, int, int
+        """
+
         self.schedule = SimultaneousActivation(self)
         self.accident_occured = False
         self.grid = SingleGrid(width, height, False)
@@ -157,6 +204,11 @@ class RoadModel(Model):
         self.datacollector = DataCollector(model_reporters={"Grid":get_grid})
         
     def step(self):
+        """
+        Defines the actions of the model
+        parameters: Model
+        """
+
         self.datacollector.collect(self)
         for (content, x, y) in self.grid.coord_iter():
             if content != None and y == 0:
@@ -197,13 +249,28 @@ model = RoadModel(WIDTH, HEIGHT)
 all_grid = model.datacollector.get_model_vars_dataframe()
 
 class Server(BaseHTTPRequestHandler):
+    """
+    Class Server of type BaseHTTPRequestHandler
+    parameters: BaseHTTPRequestHandler
+    """
+
     
     def _set_response(self):
+        """
+        Sets the response headers
+        parameters: BaseHTTPRequestHandler
+        """
+
         self.send_response(200)
         self.send_header('Content-type', 'text/html')
         self.end_headers()
         
     def do_GET(self):
+        """
+        Sets the GET response
+        parameters: BaseHTTPRequestHandler
+        """
+
         logging.info("GET request,\nPath: %s\nHeaders:\n%s\n", str(self.path), str(self.headers))
         model.step()
         positions_step = get_positions(model)
@@ -213,6 +280,11 @@ class Server(BaseHTTPRequestHandler):
         # self.wfile.write("GET request for {}".format(self.path).encode('utf-8'))
 
     def do_POST(self):
+        """
+        Sets the POST response
+        parameters: BaseHTTPRequestHandler
+        """
+
         content_length = int(self.headers['Content-Length'])
         #post_data = self.rfile.read(content_length)
         post_data = json.loads(self.rfile.read(content_length))
@@ -231,6 +303,11 @@ class Server(BaseHTTPRequestHandler):
         print("Right Cars:", model.right_cars)
 
 def run(server_class=HTTPServer, handler_class=Server, port=8585):
+    """
+    Runs the server
+    parameters: BaseHTTPRequestHandler
+    """
+
     logging.basicConfig(level=logging.INFO)
     server_address = ('', port)
     httpd = server_class(server_address, handler_class)
