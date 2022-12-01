@@ -7,6 +7,7 @@ public class CloudManager : MonoBehaviour
     public GameObject cloud;
     public Vector3 limit = new Vector3(0, 88, 0);
     public int speed;
+    private bool smoke = false;
     public void OnEnable(){
         Debug.Log("CloudManager OnEnable");
         TimeManager.OnMinuteChanged += TimeCheck;
@@ -19,18 +20,20 @@ public class CloudManager : MonoBehaviour
     }
      private void TimeCheck()
     {
-        if(TimeManager.Hour >= 3 && TimeManager.Minute >= 23)
+        if(TimeManager.Hour == 3 && TimeManager.Minute == 23)
         {
+            smoke = true;
+        }
+        if (smoke) {
             StartCoroutine(SpawnCloud());
         }
-        
     }
 
     //Enumerator to spawn clouds
     private IEnumerator SpawnCloud()
     {
         Debug.Log("Cloud Spawned");
-        GameObject Cloud = Instantiate(cloud, new Vector3(15, 0, 665), Quaternion.Euler(0, 0, 0));
+        GameObject Cloud = Instantiate(cloud, new Vector3(15, 0, 668), Quaternion.Euler(0, 0, 0));
         Cloud.transform.Translate(Vector3.up * speed * Time.deltaTime * 1);
         if (Cloud.transform.position.y >= limit.y) {
             Destroy(Cloud);
