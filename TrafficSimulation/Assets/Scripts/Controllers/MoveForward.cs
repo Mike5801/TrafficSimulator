@@ -2,6 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+//<summary>
+// Class assign to every car that allows him to move and change lanes.
+//</summary>
 public class MoveForward : MonoBehaviour
 {
     public int speed = 10;
@@ -14,13 +17,10 @@ public class MoveForward : MonoBehaviour
     public int previousPosy;
     public int posx = -1;
     public int previousPosx = -1;
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
 
-    // Update is called once per frame
+    //<summary>
+    // Every frame while the car doesn't reach certain position calls function Move, or else destroy itself.
+    //</summary>
     void Update()
     {
         
@@ -32,6 +32,9 @@ public class MoveForward : MonoBehaviour
         }
     }
 
+    //<summary>
+    // The car moves forward, right or left, depending on their previous position and actual position
+    //</summary>
     void Move(){
         if (previousPosx != posx) {
             if (posx == 0) {
