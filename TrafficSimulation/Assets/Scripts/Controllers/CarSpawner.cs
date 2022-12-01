@@ -1,7 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+/// <summary>
+/// This class is used to spawn cars in the game.
+/// </summary>
 public class CarSpawner : MonoBehaviour
 {
     public GameObject rightCar;
@@ -15,18 +17,25 @@ public class CarSpawner : MonoBehaviour
     private HashSet<int> leftVisitedIDs = new HashSet<int>();
     private HashSet<int> rightVisitedIDs = new HashSet<int>();
 
-    // Start is called before the first frame update
+    /// <summary>
+    /// This method is used to add time to the counter.
+    /// </summary>
     public void OnEnable(){
         TimeManager.OnMinuteChanged += TimeCheck;
         Debug.Log("CarSpawner OnEnable");
     }
 
+    /// <summary>
+    /// This method is used to remove time from the counter.
+    /// </summary>
     public void OnDisable()
     {
         TimeManager.OnMinuteChanged -= TimeCheck;
         Debug.Log("CarSpawner OnDisable");
     }
-
+/// <summary>
+/// This method is used to call the SpawnCar coroutine every 1 second.
+/// </summary>
     private void TimeCheck()
     {
         if(TimeManager.Minute % 1 == 0)
@@ -36,17 +45,20 @@ public class CarSpawner : MonoBehaviour
         
     }
 
-    // Update is called once per frame
+    ///<summary>
+    /// Corotuine that Spawns a car randomly in 3 of the given positions (left, center, right) eventually with a broken car in the center lane.
+    ///</summary>
+    ///<returns>IEnumerator</returns>
     private IEnumerator SpawnCarRandom()
     {
         Car[] carsData = WebClient.res.data;
-
         for (int i = 0; i < carsData.Length; i++) {
             int id = carsData[i].id;
             int posx = carsData[i].posx;
             int posy = carsData[i].posy;
             bool car_malfunction = carsData[i].car_malfunction;
             if (car_malfunction == true) {
+
                 if (!visitedIDs.Contains(id)) {
                     GameObject car = Instantiate(BrokenCar, new Vector3(15, 1.5f, StartPos), Quaternion.Euler(0, 270, 0));
                     car.GetComponent<MoveForward>().ID = id;
