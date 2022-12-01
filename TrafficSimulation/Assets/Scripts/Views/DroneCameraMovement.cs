@@ -2,18 +2,17 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+//<summary>
+// Class to manage the camera on the game view
+//</summary>
 public class DroneCameraMovement : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
 
-    // Update is called once per frame
+    // <summary>
+    // Moves the drone camera according to the WASD keys.
+    // </summary>
     void Update()
     {
-        //Allows the user to move the camera on key input
         if (Input.GetKey(KeyCode.W))
         {
             transform.Translate(Vector3.up * Time.deltaTime * 25);

@@ -3,6 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [System.Serializable]
+
+//<summary>
+// Class that holds the data for each car received from the json. 
+//</summary>
 public class Car
 {
     public int id;
