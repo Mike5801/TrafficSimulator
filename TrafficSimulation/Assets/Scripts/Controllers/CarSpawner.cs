@@ -18,11 +18,13 @@ public class CarSpawner : MonoBehaviour
     // Start is called before the first frame update
     public void OnEnable(){
         TimeManager.OnMinuteChanged += TimeCheck;
+        Debug.Log("CarSpawner OnEnable");
     }
 
     public void OnDisable()
     {
         TimeManager.OnMinuteChanged -= TimeCheck;
+        Debug.Log("CarSpawner OnDisable");
     }
 
     private void TimeCheck()

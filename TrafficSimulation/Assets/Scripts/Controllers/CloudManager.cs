@@ -7,17 +7,19 @@ public class CloudManager : MonoBehaviour
     public GameObject cloud;
     public Vector3 limit = new Vector3(0, 88, 0);
     public int speed;
-        public void OnEnable(){
+    public void OnEnable(){
+        Debug.Log("CloudManager OnEnable");
         TimeManager.OnMinuteChanged += TimeCheck;
     }
 
     public void OnDisable()
     {
+        Debug.Log("CloudManager OnDisable");
         TimeManager.OnMinuteChanged -= TimeCheck;
     }
      private void TimeCheck()
     {
-        if(TimeManager.Minute >= 23 && TimeManager.Hour >= 3)
+        if(TimeManager.Hour >= 3 && TimeManager.Minute >= 23)
         {
             StartCoroutine(SpawnCloud());
         }
@@ -27,9 +29,10 @@ public class CloudManager : MonoBehaviour
     //Enumerator to spawn clouds
     private IEnumerator SpawnCloud()
     {
-        GameObject Cloud = Instantiate(cloud, new Vector3(15, 0, 650), Quaternion.Euler(0, 0, 0));
+        Debug.Log("Cloud Spawned");
+        GameObject Cloud = Instantiate(cloud, new Vector3(15, 0, 665), Quaternion.Euler(0, 0, 0));
         Cloud.transform.Translate(Vector3.up * speed * Time.deltaTime * 1);
-        if (Cloud.transform.position.z >= limit.z) {
+        if (Cloud.transform.position.y >= limit.y) {
             Destroy(Cloud);
         }
     
@@ -41,15 +44,4 @@ public class CloudManager : MonoBehaviour
         Destroy(gameObject);
     }
     
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 }
