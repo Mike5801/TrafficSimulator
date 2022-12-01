@@ -161,6 +161,9 @@ class RoadModel(Model):
         self.grid = SingleGrid(width, height, False)
         self.id_counter = 0
         self.count_steps = 0
+        self.middle_cars = 0
+        self.right_cars = 0
+        self.left_cars = 0
         
         self.datacollector = DataCollector(model_reporters={"Grid":get_grid})
         
@@ -182,6 +185,13 @@ class RoadModel(Model):
         else:
             car_spawn = CarAgent(self.id_counter, self, False, self.random.randint(0, 2)) 
             x = self.random.randint(0, 2)
+            if x == 0:
+                self.left_cars += 1
+            elif x == 1:
+                self.middle_cars += 1
+            elif x == 2:
+                self.right_cars += 1
+
             y = self.grid.height - 1
             if self.grid[x][y] == None:
                 self.grid.place_agent(car_spawn ,(x, y))
@@ -229,6 +239,9 @@ class Server(BaseHTTPRequestHandler):
         self._set_response()
         resp = "{\"data\":" + positions_step + "}"
         self.wfile.write(resp.encode('utf-8'))
+        print("Left Cars:", model.left_cars)
+        print("Middle Cars:", model.middle_cars)
+        print("Right Cars:", model.right_cars)
 
 def run(server_class=HTTPServer, handler_class=Server, port=8585):
     logging.basicConfig(level=logging.INFO)
