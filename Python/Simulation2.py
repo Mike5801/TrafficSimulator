@@ -63,7 +63,6 @@ class CarAgent(Agent):
                    
     def changeLane(self, neighbor):
         if neighbor != None:
-            neighbor.counter += 1
             neighbor.velocity = 0
         self.show_intention = False
         x, y = self.pos
@@ -71,9 +70,13 @@ class CarAgent(Agent):
         if self.intention == 0:
             if self.model.grid[x - 1][y] == None:
                 self.model.grid.move_agent(self, (x - 1, y))
+                if neighbor != None:
+                    neighbor.counter += 1
         elif self.intention == 1:
             if self.model.grid[x + 1][y] == None:
                 self.model.grid.move_agent(self, (x + 1, y))
+                if neighbor != None:
+                    neighbor.counter += 1
             
     def getWaitingCar(self):
         if self.intention == 0 and self.pos[1]:
@@ -95,7 +98,7 @@ class CarAgent(Agent):
             intention = neighbor.intention
             carLane = self.pos[0]
             if (intention == 0 and carLane == 0) or (intention == 1 and carLane == 2):
-                if self.counter > self.num_cars_allowed:
+                if self.counter >= self.num_cars_allowed:
                     self.velocity = 60
             elif (intention == 0 and carLane == 2) or (intention == 1 and carLane == 0):
                 self.velocity = 60
@@ -106,23 +109,22 @@ class CarAgent(Agent):
         if self.car_malfunction == True and self.pos[1] == (self.model.grid.height / 2):
             self.velocity = 0
             self.model.accident_occured = True
+            self.show_intention = False
         elif self.model.accident_occured == True and self.pos[1] <= (self.model.grid.height / 2) + 1:
             self.velocity = 60
-        elif self.model.accident_occured == True and (self.pos[0] == 0 or self.pos[0] == 2):
-            self.velocity = 0
         
-        if self.pos[0] == 1 and self.pos[1] == self.model.grid.height - 5 and self.car_malfunction == False:    
+        if self.pos[0] == 1 and self.pos[1] <= self.model.grid.height - 5 and self.car_malfunction == False and self.model.accident_occured == True:    
             waiting_car_pos = self.getWaitingCar()
             diagonal_car = self.model.grid[waiting_car_pos[0]][waiting_car_pos[1]]
             if diagonal_car != None:
-                if diagonal_car.counter <= diagonal_car.num_cars_allowed:
+                if diagonal_car.counter < diagonal_car.num_cars_allowed:
                     self.changeLane(diagonal_car)
             elif diagonal_car == None:
                 self.changeLane(diagonal_car)
         elif self.pos[0] == 0 or self.pos[0] == 2 :
             passing_car = self.getPassingCar()
             front_passing_car = self.model.grid[passing_car[0]][passing_car[1]]
-            if front_passing_car != None and front_passing_car.front_malfunction == True:
+            if front_passing_car != None:
                 self.canPass(front_passing_car)
             elif front_passing_car == None and (self.pos[0] == 0 or self.pos[0] == 2):
                 self.velocity = 60
@@ -148,6 +150,9 @@ class RoadModel(Model):
         self.grid = SingleGrid(width, height, False)
         self.id_counter = 0
         self.count_steps = 0
+        self.middle_cars = 0
+        self.right_cars = 0
+        self.left_cars = 0
         
         self.datacollector = DataCollector(model_reporters={"Grid":get_grid})
         
@@ -158,7 +163,7 @@ class RoadModel(Model):
                 self.grid.remove_agent(content)
                 self.schedule.remove(content)
         
-        if self.count_steps == 10:
+        if self.count_steps == 150:
             accidented_car = CarAgent(self.id_counter, self, True, 0)
             x = 1
             y = self.grid.height - 1
@@ -168,6 +173,13 @@ class RoadModel(Model):
         else:
             car_spawn = CarAgent(self.id_counter, self, False, self.random.randint(0, 2))
             x = self.random.randint(0, 2)
+            if x == 0:
+                self.left_cars += 1
+            elif x == 1:
+                self.middle_cars += 1
+            elif x == 2:
+                self.right_cars += 1
+
             y = self.grid.height - 1
             if self.grid[x][y] == None:
                 self.grid.place_agent(car_spawn ,(x, y))
@@ -214,6 +226,9 @@ class Server(BaseHTTPRequestHandler):
         self._set_response()
         resp = "{\"data\":" + positions_step + "}"
         self.wfile.write(resp.encode('utf-8'))
+        print("Left Cars:", model.left_cars)
+        print("Middle Cars:", model.middle_cars)
+        print("Right Cars:", model.right_cars)
 
 def run(server_class=HTTPServer, handler_class=Server, port=8585):
     logging.basicConfig(level=logging.INFO)
